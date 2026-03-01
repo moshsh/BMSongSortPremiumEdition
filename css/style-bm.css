@@ -1,21 +1,21 @@
 body {
-  background-color: #000;
-  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,"游ゴシック",YuGothic,"ヒラギノ角ゴ ProN W3","Hiragino Kaku Gothic ProN","メイリオ",Meiryo,sans-serif;
-  font-size: 16px;
-  color: #fff;
-  background-image: url("../img/fox-right.png"), url("../img/fox-left.png");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: right top, left top;
+	background-color: #000;
+	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,"游ゴシック",YuGothic,"ヒラギノ角ゴ ProN W3","Hiragino Kaku Gothic ProN","メイリオ",Meiryo,sans-serif;
+	font-size: 16px;
+	color: #fff;
+	background-image: url("../img/fox-right.png"), url("../img/fox-left.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: right top, left top;
 }
 
 .resTable {
-  border: 3px solid #5F151B;
-  border-radius: 5px;
+	border: 3px solid #5F151B;
+	border-radius: 5px;
 }
 
 a, a:hover {
-  color: #fff;
+	color: #fff;
 }
 
 #optTable {
@@ -23,29 +23,29 @@ a, a:hover {
 }
 
 #fldRight, #fldLeft {
-  width: 210px;
-  height: 210px;
-  border: 1px solid #5F151B;
-  font-size: 16px;
+	width: 210px;
+	height: 210px;
+	border: 1px solid #5F151B;
+	font-size: 16px;
 }
 
 #fldMiddleT, #fldMiddleB, #fldMiddleB2 {
-  border: 1px solid #5F151B;
+	border: 1px solid #5F151B;
 }
 
 #fldMiddleT, #fldMiddleB2 {
-  visibility:hidden;
+	visibility: hidden;
 }
 
 img {
-  height: 210px;
-  width: 210px;
+	height: 210px;
+	width: 210px;
 }
 
 #btn-rawtext {
 	cursor: pointer;
 	background-color: #7C0919;
-  color: #fff;
+	color: #fff;
 	width: 150px;
 	padding: 2px;
 	border: 3px solid #5F151B;
@@ -53,51 +53,78 @@ img {
 }
 
 #menubar {
-  position: fixed;
-  color: #fff;
-  width: 100%;
-  height: 50px;
-  top: 0px;
-  left: 0px;
-  background-color: #7C0919;
-  z-index: 1;
-  text-align: center;
-  border-bottom-color: #5F151B;
-  border-bottom-width: 5px;
-  border-bottom-style: solid;
+	position: fixed;
+	color: #fff;
+	width: 100%;
+	height: 50px;
+	top: 0px;
+	left: 0px;
+	background-color: #7C0919;
+	z-index: 1;
+	text-align: center;
+	border-bottom-color: #5F151B;
+	border-bottom-width: 5px;
+	border-bottom-style: solid;
 }
 
 .menu-item {
-  width: 120px;
-  height: 100%;
-  bottom: 50px;
-  float: left;
-  border-left-color: #5F151B;
-  border-left-width: 2px;
-  border-left-style: solid;
+	width: 120px;
+	height: 100%;
+	bottom: 50px;
+	float: left;
+	border-left-color: #5F151B;
+	border-left-width: 2px;
+	border-left-style: solid;
 }
 
 #menu-restart {
-  border-left-width: 0px; 
+	border-left-width: 0px;
 }
 
 .menu-link {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .menu-right {
-  float: right;
+	float: right;
 }
 
 .resTable thead {
-  background-color: #000;
-  color: #fff;
+	background-color: #000;
+	color: #fff;
 }
 
 .resTable tbody, #fldLeft, #fldMiddleT, #fldRight, #fldMiddleB {
-  background-color: #000;
+	background-color: #000;
 }
 
 .cbox {
-  font-size: 14px;
+	font-size: 14px;
+}
+
+:root {
+	/*	--background-color: rgba(0, 0, 0, 1);*/
+	--canvas-background: rgba(0, 0, 0, 1);
+	/*  --canvas-border: rgba(139, 0, 0, 0);*/
+	/*	--axis-color: #cccccc;*/
+	--data-fill: rgba(139, 0, 0, 0.7);
+	--data-stroke: rgba(139, 0, 0, 0);
+	--label-color: rgba(255, 255, 255, 0.9);
+	--band-low: rgba(128, 128, 128, 1);
+	--band-mid: rgba(128, 128, 128, 1);
+	--band-high: rgba(128, 128, 128, 1);
+}
+
+canvas {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.site-footer {
+	text-align: center;
+	font-size: 0.9em;
+	color: #888;
+	margin-top: 40px;
+	padding: 20px 0;
 }
