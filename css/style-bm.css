@@ -1,3 +1,8 @@
+html, body {
+	height: 100%;
+	margin: 0;
+}
+
 body {
 	background-color: #000;
 	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,"游ゴシック",YuGothic,"ヒラギノ角ゴ ProN W3","Hiragino Kaku Gothic ProN","メイリオ",Meiryo,sans-serif;
@@ -9,6 +14,12 @@ body {
 	background-position: right top, left top;
 	margin: 0;
 	padding-bottom: 40px; /* space for footer */
+	display: flex;
+	flex-direction: column;	
+}
+
+main {
+	flex: 1;
 }
 
 .resTable {
@@ -132,4 +143,8 @@ canvas {
 	font-size: 0.8em; /* slightly smaller */
 	color: #888;
 	padding: 10px 0;
+}
+
+.site-footer a:hover {
+	color: #555;
 }
