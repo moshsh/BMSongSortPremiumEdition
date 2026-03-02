@@ -7,26 +7,34 @@ str_CenterB = 'Undo last choice';
 
 str_ImgPath = 'img/';
 // 0:順番に　1:昔の
+// 0: In order 1: Old
 var bln_ResultMode = 1;
 // 0:テキスト　1:イラスト　2:テキスト＋イラスト
+// 0: Text  1: Illustration  2: Text + Illustration
 var int_ResultImg = 2;
 // イラスト表示時、何位までをイラスト表示にするか。
+// When displaying illustrations, up to which position should illustrations be shown?
 var int_ResultRank = 3;
 
 // ソート用のテーブルを
 // 0:残す　1:消す
+// Sorting table
+// 0: Keep  1: Delete
 var bln_ResultStyle = 0;
 
 // ソート進捗バーの表示
 // 0:表示　1:消す
+// Sort progress bar display
+// 0: Show  1: Hide
 var bln_ProgessBar = 1;
 
 // Maximum number of result rows before being broken off into another table.
 var maxRows = 20;
 
 // * タイトル情報（編集可能。最後の行に”,”を付けないようにしてください）
-var int_Colspan = 3;
-var ary_TitleData = [
+// * Title information (editable. Please do not add a comma at the end of the last line)
+var int_Colspan = 5;
+var albumTitleArray = [
  "BABYMETAL (2014)",
  "METAL RESISTANCE (2016)",
  "METAL GALAXY (2019)",
@@ -36,14 +44,20 @@ var ary_TitleData = [
  "Covers",
  "Collaborations",
  "Alternative Studio Song Versions",
- "Alternative Live Performance Version"
+ "Alternative Live Performance Versions"
 ];
 
 // * キャラクター情報（編集可能。最後の行に”,”を付けないようにしてください）
-// * 使用フラグ（0にするとソートに入りません）, 
-//   "タイトルID"（先頭から0, 1, 2...）, 
+// * 使用フラグ（0にするとソートに入りません）,
+//   "タイトルID"（先頭から0, 1, 2...）,
 //   {タイトル別参加フラグ}（1を入れると対象タイトルに入ります）,
 //   "キャラクター名", "画像（空白の場合、キャラクター名が使用されます）"
+//                                      [1,2,3,4,5,6,7,8,9,
+// * Character information (editable. Do not add a comma at the end of the last line)
+// * Usage flag (set to 0 to exclude from sorting),
+//   "Title ID" (0, 1, 2... from the beginning),
+//   {Title Participation Flag} (set to 1 to include in target title),
+//   "Character Name", "Image (if blank, character name will be used)"
 //                                      [1,2,3,4,5,6,7,8,9,
 var ary_CharacterData = [
   [1, "Babymetal Death",            [1,0,0,0,0,0,0,0,0,0], "bmsong/bm01.jpg"],
