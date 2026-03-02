@@ -89,9 +89,9 @@
 		<div class="style4" id="graphField" style="text-align:center;"><br></div>
 		<div style="width:400px; margin:0 auto; text-align:center;">
 			<canvas id="radarChart" width="400" height="400"></canvas>
-			<div class="style4" id="personalityType"><br></div>
+			<div style="padding-bottom: 100px;" id="personalityType"><br></div>
 		</div>
-<footer class="site-footer">
+<footer class="site-footer" id="footer">
   <p>
     Version 0.1.1<br>
     Special thanks to Curious Midnight and Silly Programme for their contributions.<br>
@@ -99,5 +99,25 @@
 	Check out this fun <a href="https://tiermaker.com/create/babymetal-songs-207725" target="_blank">BABYMETAL songs tier list</a>
   </p>
 </footer>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var footer = document.getElementById("footer");
+
+        if (!footer) return;
+
+        window.addEventListener("scroll", function () {
+            var scrollPosition = window.innerHeight + window.scrollY;
+            var pageHeight = document.documentElement.scrollHeight;
+
+            if (scrollPosition >= pageHeight - 50) {
+                footer.classList.add("visible");
+            } else {
+                footer.classList.remove("visible");
+            }
+        });
+
+    });
+</script>
 	</body>
 </html>
