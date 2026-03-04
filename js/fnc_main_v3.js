@@ -36,7 +36,7 @@ var int_Count = 0;
 var int_Total = 0;
 var int_Completed = 0;
 var int_Status = 0;
-var sID = 'GaGprog';
+var progressGaugeId = 'progressGauge';
 var iGM = 100;
 
 var back_ary_SortData = new Array();
@@ -66,15 +66,24 @@ var onlyMainAlbums = true;
 // * <BODY>タグの読み込み終了時に実行。
 // * Execute when the <BODY> tag has finished loading
 function startup() {
-    var tbl_Select = document.getElementById('optTable');
+    var albumSelectTable = document.getElementById('albumSelectTable');
+    createAlbumCheckboxes(albumSelectTable);
+    document.getElementById('displayImagesWhileSorting').disabled = false;
+
+    createSelectAllAndDisplayImagesWhileSortingButtons()
+
+    if (!bln_ProgessBar) createProgressGauge(progressGaugeId, iGM, iGM);
+}
+
+function createAlbumCheckboxes(albumSelectTable) {
     var tbl_body_Select = document.createElement('tbody');
-    tbl_Select.appendChild(tbl_body_Select);
+    albumSelectTable.appendChild(tbl_body_Select);
 
     // タイトルから選択用チェックボックスに変換
     // Convert from title to selection checkbox
     for (i = 0; i < albumTitleArray.length; i++) {
         // Row[i]
-        if ((i % int_Colspan) == 0) {
+        if ((i % albumSelectTableColumnCount) == 0) {
             var new_row = tbl_body_Select.insertRow(tbl_body_Select.rows.length);
             new_row.id = 'optSelRow' + i;
         }
@@ -114,38 +123,38 @@ function startup() {
         new_span.appendChild(document.createTextNode("    " + year));
         new_span.title = albumTitleArray[i];
         new_span.id = i;
-        sC(new_span, 'cbox');
+        new_span.setAttribute('class', 'cbox', 0);
+        new_span.className = 'cbox';
         new_span.onclick = function () { chgFlag(this.id); }
         new_cell.appendChild(new_span);
     }
+}
 
-    document.getElementById('optImage').disabled = false;
+function createSelectAllAndDisplayImagesWhileSortingButtons() {
 
-    var tbl_foot_Select = document.createElement('tfoot');
-    tbl_Select.appendChild(tbl_foot_Select);
+    var displayImagesWhileSortingFooter = document.createElement('tfoot');
+    albumSelectTable.appendChild(displayImagesWhileSortingFooter);
 
     // Row[0]
-    var new_row = tbl_foot_Select.insertRow(tbl_foot_Select.rows.length);
-    sC(new_row, "opt_foot");
+    var new_row = displayImagesWhileSortingFooter.insertRow(displayImagesWhileSortingFooter.rows.length);
+    new_row.setAttribute('class', "opt_foot", 0);
+    new_row.className = "opt_foot";
 
     var new_cell = new_row.insertCell(new_row.childNodes.length);
-    new_cell.setAttribute('colspan', int_Colspan);
+    new_cell.setAttribute('colspan', albumSelectTableColumnCount);
     new_cell.style = 'text-align: center; vertical-align: middle;padding-top: 10px;'
     var new_CheckBox = document.createElement('input');
     new_CheckBox.setAttribute('type', 'checkbox', 0);
     new_CheckBox.setAttribute('checked', 'true', 0);
     new_CheckBox.value = "All";
     new_CheckBox.title = "Check/uncheck all boxes";
-    new_CheckBox.id = 'optSelect_all';    
+    new_CheckBox.id = 'optSelect_all';
     new_CheckBox.onclick = function () { chgAll(); }
     new_cell.appendChild(new_CheckBox);
 
     var new_span = document.createElement('span');
     new_span.appendChild(document.createTextNode("Select All"));
     new_cell.appendChild(new_span);
-
-
-    if (!bln_ProgessBar) fCG(sID, iGM, iGM);
 }
 
 function chgAll() {
@@ -157,6 +166,7 @@ function chgAll() {
 // *****************************************************************************
 // * chgFlag
 // * タイトル名がクリックされてもチェックボックスを変更する。
+// * Changing the checkbox when the title is clicked.
 function chgFlag(int_id) {
     var obj_Check = document.getElementById('optSelect' + int_id);
     if (!obj_Check.disabled) {
@@ -168,11 +178,14 @@ function chgFlag(int_id) {
 // * Initialize
 // * 使用する配列や、カウンターを初期化する
 // * 初回のみ動作。
+// * Initialise the arrays and counters to be used
+// * Runs only on the first execution.
 function init() {
     int_Total = 0;
     int_RecordID = 0;
 
     // ソート対象のみを抽出
+    // Extract only the items to be sorted
     for (i = 0; i < ary_CharacterData.length; i++) {
         for (j = 0; j < albumTitleArray.length; j++) {
             if (document.getElementById('optSelect' + j).checked && (ary_CharacterData[i][2][j] == 1)) {
@@ -191,17 +204,19 @@ function init() {
             document.getElementById('optSelect' + i).disabled = true;
             document.getElementById('optSelect' + i).style.dsiplay = 'none';
         }
-        document.getElementById('optImage').disabled = true;
+        document.getElementById('displayImagesWhileSorting').disabled = true;
     }
 
     int_Total = 0;
 
     // ソート配列にIDを格納する
+    // Store IDs in the sorted array
     ary_SortData[0] = new Array();
     for (i = 0; i < ary_TempData.length; i++) {
         ary_SortData[0][i] = i;
 
         // 保存用配列
+        // Array for storage
         ary_RecordData[i] = 0;
     }
 
@@ -210,6 +225,9 @@ function init() {
         // #ソートは基本ロジックを流用
         // 要素数が２以上なら２分割し、
         // 分割された配列をary_SortDataの最後に加える
+        // Sorting reuses the core logic
+        // If the number of elements is two or more, divide into two parts
+        // and append the split arrays to the end of ary_SortData
         if (ary_SortData[i].length >= 2) {
             var int_Marker = Math.ceil(ary_SortData[i].length / 2);
             ary_SortData[int_Pointer] = ary_SortData[i].slice(0, int_Marker);
@@ -227,6 +245,9 @@ function init() {
     // 引き分けの結果を保存するリスト
     // キー：リンク始点の値
     // 値 ：リンク終点の値
+    // List storing draw results
+    // Key: Value at link start point
+    // Value: Value at link end point
     for (i = 0; i <= ary_TempData.length; i++) {
         ary_EqualData[i] = -1;
     }
@@ -239,6 +260,7 @@ function init() {
     int_Completed = 0;
 
     // イニシャライズが終了したのでステータスを1に変更
+    // Initialisation has completed, so change the status to 1
     int_Status = 1;
 
     document.getElementById('fldMiddleT').innerHTML = str_CenterT;
@@ -250,6 +272,7 @@ function init() {
 // *****************************************************************************
 // * Image Initialize
 // * メンテナンス用リスト
+// * Maintenance list
 function imginit() {
     var int_ImgCount = 0;
     var int_ImgValue = 0;
@@ -263,12 +286,13 @@ function imginit() {
         // Col[0]
         new_cell = new_row.insertCell(new_row.childNodes.length);
         new_cell.appendChild(document.createTextNode(i));
-        sC(new_cell, 'resTableL');
-
+        new_cell.setAttribute('class', 'resTableL', 0);
+        new_cell.className = 'resTableL';
         // Col[1]
         new_cell = new_row.insertCell(new_row.childNodes.length);
         new_cell.appendChild(document.createTextNode(ary_CharacterData[i][1]));
-        sC(new_cell, 'resTableR');
+        new_cell.setAttribute('class', 'resTableR', 0);
+        new_cell.className = 'resTableR';
 
         // Col[2]
         new_cell = new_row.insertCell(new_row.childNodes.length);
@@ -278,11 +302,13 @@ function imginit() {
                 new_cell.appendChild(document.createElement('br'));
             }
         }
-        sC(new_cell, 'resTableR');
+        new_cell.setAttribute('class', 'resTableR', 0);
+        new_cell.className = 'resTableR';
 
         // Col[3]
         new_cell = new_row.insertCell(new_row.childNodes.length);
-        sC(new_cell, 'resTableR');
+        new_cell.setAttribute('class', 'resTableR', 0);
+        new_cell.className = 'resTableR';
 
         if (ary_CharacterData[i][3].length > 0) {
             for (j = 3; j < ary_CharacterData[i].length; j++) {
@@ -343,6 +369,7 @@ function fnc_TieRest(){
 
 // *****************************************************************************
 // * Sort (-1:左側, 0:引き分け, 1:右側)
+// * Sort (-1: left side, 0: draw, 1: right side)
 
 function fnc_Sort(int_SelectID) {
 
@@ -361,18 +388,23 @@ function fnc_Sort(int_SelectID) {
     back_int_LeftID = int_LeftID;
 
     // ステータスにより処理を分岐
+    // Process based on status
     switch (int_Status) {
         case 0:
             // 初回クリック時、ソート情報を初期化する。
+            // Initialise sort information on the first click.
             init();
         case 2:
             // ソートが終了していた場合、ソート処理は行わない。
+            // If sorting has already been completed, no sorting processing is performed.
             return;
         default:
     }
 
     // ary_RecordDataに保存
     // 左側Count
+    // Save to ary_RecordData
+    // Left Count
     if (int_SelectID != 1) {
         fnc_CountUp(0);
         while (ary_EqualData[ary_RecordData[int_RecordID - 1]] != -1) {
@@ -381,11 +413,13 @@ function fnc_Sort(int_SelectID) {
     }
 
     // 引き分けの場合のみ
+    // In the event of a draw only
     if (int_SelectID == 0) {
         ary_EqualData[ary_RecordData[int_RecordID - 1]] = ary_SortData[int_RightList][int_RightID];
     }
 
     // 右側Count
+    // Right Count
     if (int_SelectID != -1) {
         fnc_CountUp(1);
         while (ary_EqualData[ary_RecordData[int_RecordID - 1]] != -1) {
@@ -394,13 +428,16 @@ function fnc_Sort(int_SelectID) {
     }
 
     // 片方のリストを走査し終えた後の処理
+    // Processing after traversing one of the lists
     if (int_LeftID < ary_SortData[int_LeftList].length && int_RightID == ary_SortData[int_RightList].length) {
         // リストint_RightListが走査済 - リストint_LeftListの残りをコピー
+        // List int_RightList has been traversed - Copy the remainder of list int_LeftList
         while (int_LeftID < ary_SortData[int_LeftList].length) {
             fnc_CountUp(0);
         }
     } else if (int_LeftID == ary_SortData[int_LeftList].length && int_RightID < ary_SortData[int_RightList].length) {
         // リストint_LeftListが走査済 - リストint_RightListの残りをコピー
+        // List int_LeftList has been traversed - Copy the remainder of list int_RightList
         while (int_RightID < ary_SortData[int_RightList].length) {
             fnc_CountUp(1);
         }
@@ -408,6 +445,8 @@ function fnc_Sort(int_SelectID) {
 
     //両方のリストの最後に到達した場合は
     //親リストを更新する
+    // When reaching the end of both lists
+    // Update the parent list
     if (int_LeftID == ary_SortData[int_LeftList].length && int_RightID == ary_SortData[int_RightList].length) {
         for (i = 0; i < ary_SortData[int_LeftList].length + ary_SortData[int_RightList].length; i++) {
             ary_SortData[ary_ParentData[int_LeftList]][i] = ary_RecordData[i];
@@ -419,8 +458,8 @@ function fnc_Sort(int_SelectID) {
         int_RightList = int_RightList - 2;
         int_LeftID = 0;
         int_RightID = 0;
-
         //新しい比較を行う前にary_RecordDataを初期化
+        // Initialise ary_RecordData before performing a new comparison
         if (int_LeftID == 0 && int_RightID == 0) {
             for (i = 0; i < ary_TempData.length; i++) {
                 ary_RecordData[i] = 0;
@@ -430,6 +469,7 @@ function fnc_Sort(int_SelectID) {
     }
 
     // 終了チェック
+    // Termination check
     int_Status = (int_LeftList < 0) ? 2 : 1;
 
     fnc_ShowData();
@@ -438,6 +478,8 @@ function fnc_Sort(int_SelectID) {
 // *****************************************************************************
 // * CountUp(0:左側 1:右側)
 // * 選択された方をカウントアップする。
+// * CountUp(0:Left 1:Right)
+// * Increments the selected side.
 function fnc_CountUp(int_Select) {
     ary_RecordData[int_RecordID] = ary_SortData[((int_Select == 0) ? int_LeftList : int_RightList)][((int_Select == 0) ? int_LeftID : int_RightID)];
 
@@ -454,16 +496,19 @@ function fnc_CountUp(int_Select) {
 // *****************************************************************************
 // * ShowData
 // * 進捗率と名前を表示する。
+// * ShowData
+// * Display the progress rate and name.
 function fnc_ShowData() {
 
 
 
     document.getElementById("lblCount").innerHTML = int_Count;
     document.getElementById("lblProgress").innerHTML = Math.floor(int_Completed * 100 / int_Total);
-    if (!bln_ProgessBar) eGR(sID, Math.floor(int_Completed * 100 / int_Total));
+    if (!bln_ProgessBar) eGR(progressGaugeId, Math.floor(int_Completed * 100 / int_Total));
 
     if (int_Status == 2) {
         // 判定が終了していた場合、結果表示。
+        // If the determination has concluded, display the result.
         var int_Result = 1;
 
         var tbl_Result = document.createElement('table');
@@ -476,11 +521,13 @@ function fnc_ShowData() {
 
         // Col[0]
         new_cell = new_row.insertCell(new_row.childNodes.length);
-        sC(new_cell, 'resTableH');
+        new_cell.setAttribute('class', 'resTableH', 0);
+        new_cell.className = 'resTableH';
         new_cell.appendChild(document.createTextNode('Order'));
         // Col[1]
         new_cell = new_row.insertCell(new_row.childNodes.length);
-        sC(new_cell, 'resTableH');
+        new_cell.setAttribute('class', 'resTableH', 0);
+        new_cell.className = 'resTableH';
         new_cell.appendChild(document.createTextNode('Name'));
 
         var tbl_body_Result = document.createElement('tbody');
@@ -498,14 +545,16 @@ function fnc_ShowData() {
 
             // Col[0]
             new_cell = new_row.insertCell(new_row.childNodes.length);
-            sC(new_cell, 'resTableL');
+            new_cell.setAttribute('class', 'resTableL', 0);
+            new_cell.className = 'resTableL';
             new_cell.appendChild(document.createTextNode(int_Result));
 
             csort2[i] = int_Result; // v2a
 
             // Col[1]
             new_cell = new_row.insertCell(new_row.childNodes.length);
-            sC(new_cell, 'resTableR');
+            new_cell.setAttribute('class', 'resTableR', 0);
+            new_cell.className = 'resTableR';
 
             var bln_imgFlag = false;
             if ((int_ResultImg != 0) && (i < int_ResultRank)) {
@@ -616,10 +665,11 @@ function fnc_ShowData() {
 
     } else {
         // 判定が終了していない場合、選択肢を更新。
+        // If the determination has not yet concluded, update the options
         for (i = 0; i < 2; i++) {
             var obj_SelectItem = document.getElementById((i == 0) ? "fldLeft" : "fldRight");
             var obj_TempData = ary_TempData[ary_SortData[(i == 0) ? int_LeftList : int_RightList][(i == 0) ? int_LeftID : int_RightID]];
-            if ((obj_TempData[3].length > 0) && document.getElementById('optImage').checked) {
+            if ((obj_TempData[3].length > 0) && document.getElementById('displayImagesWhileSorting').checked) {
                 var obj_Item = document.createElement("img");
                 obj_Item.src = str_ImgPath + obj_TempData[Math.floor(Math.random() * (obj_TempData.length - 3)) + 3];
                 obj_Item.title = obj_TempData[1];
@@ -639,9 +689,9 @@ function fnc_ShowData() {
     }
 }
 
-function fnc_CC(sID, sClass) {
-
-    sC(document.getElementById(sID), sClass);
+function fnc_CC(progressGaugeId, sClass) {
+    document.getElementById(progressGaugeId).setAttribute('class', sClass, 0);
+    document.getElementById(progressGaugeId).className = sClass;
 }
 function drawRadarChart(canvasId, values, labels) {
     const canvas = document.getElementById(canvasId);

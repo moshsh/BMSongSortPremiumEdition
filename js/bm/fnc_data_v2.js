@@ -33,7 +33,7 @@ var maxRows = 20;
 
 // * タイトル情報（編集可能。最後の行に”,”を付けないようにしてください）
 // * Title information (editable. Please do not add a comma at the end of the last line)
-var int_Colspan = 5;
+var albumSelectTableColumnCount = 5;
 var albumTitleArray = [
  "BABYMETAL (2014)",
  "METAL RESISTANCE (2016)",

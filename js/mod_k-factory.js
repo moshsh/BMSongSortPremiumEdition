@@ -21,11 +21,11 @@ function sC(oID, cN) {
 // # iGM = GaugeMAX
 // # iGT = GaugeThreshhold
 var sE = '　';
-function fCG(sID, iGM, iGT) {
+function createProgressGauge(progressGaugeId, iGM, iGT) {
    var tblG = cE('table');
-   gID(sID).appendChild(tblG);
+    gID(progressGaugeId).appendChild(tblG);
    sC(tblG, 'gauge');
-   tblG.id = sID;
+    tblG.id = progressGaugeId;
 
    var tblGb = cE('tbody');
    tblG.appendChild(tblGb);
@@ -42,7 +42,7 @@ function fCG(sID, iGM, iGT) {
       // Col[-]
       newCell = newRow.insertCell(newRow.childNodes.length);
       newCell.appendChild(document.createTextNode(sE));
-      newCell.id = sID + iG;
+       newCell.id = sIprogressGaugeIdD + iG;
       sC(newCell, sCN);
    }
 
@@ -53,11 +53,11 @@ function fCG(sID, iGM, iGT) {
 }
 
 // ### Event - GaugeReflesh #################################################### 1.00 ### 2009/01/27
-function eGR(sID, iNow) {
+function eGR(progressGaugeId, iNow) {
    for(i=0; i<iGM; i++) {
       // 色ゲージ
-      if      (               i < iNow) {gID(sID + i).style.backgroundColor = "#9999ff";}
-      else                              {gID(sID + i).style.backgroundColor = "#ffffff";}
+       if (i < iNow) { gID(progressGaugeId + i).style.backgroundColor = "#9999ff";}
+       else { gID(progressGaugeId + i).style.backgroundColor = "#ffffff";}
    }
 }
 
