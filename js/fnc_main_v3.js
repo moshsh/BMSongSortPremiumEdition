@@ -668,6 +668,9 @@ function fnc_ShowData() {
         // If the determination has not yet concluded, update the options
         for (i = 0; i < 2; i++) {
             var obj_SelectItem = document.getElementById((i == 0) ? "fldLeft" : "fldRight");
+            console.log("LeftList:", int_LeftList, "RightList:", int_RightList);
+            console.log("LeftID:", int_LeftID, "RightID:", int_RightID);
+            console.log("ary_SortData:", ary_SortData);
             var obj_TempData = ary_TempData[ary_SortData[(i == 0) ? int_LeftList : int_RightList][(i == 0) ? int_LeftID : int_RightID]];
             if ((obj_TempData[3].length > 0) && document.getElementById('displayImagesWhileSorting').checked) {
                 var obj_Item = document.createElement("img");
