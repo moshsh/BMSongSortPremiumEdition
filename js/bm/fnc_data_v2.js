@@ -60,7 +60,7 @@ var albumTitleArray = [
 //   {Title Participation Flag} (set to 1 to include in target title),
 //   "Character Name", "Image (if blank, character name will be used)"
 //                                      [1,2,3,4,5,6,7,8,9,
-var ary_CharacterData = [
+var babymetalSongsArray = [
     [1, "Babymetal Death", [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "bmsong/bm01.jpg"],
     [1, "Megitsune", [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "bmsong/bm01.jpg"],
     [1, "Gimme Chocolate!!", [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "bmsong/bm01.jpg"],

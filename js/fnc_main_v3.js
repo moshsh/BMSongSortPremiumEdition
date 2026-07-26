@@ -149,7 +149,7 @@ function createSelectAllAndDisplayImagesWhileSortingButtons() {
     new_CheckBox.value = "All";
     new_CheckBox.title = "Check/uncheck all boxes";
     new_CheckBox.id = 'optSelect_all';
-    new_CheckBox.onclick = function () { chgAll(); }
+    new_CheckBox.onclick = function () { checkAllButtons(); }
     new_cell.appendChild(new_CheckBox);
 
     var new_span = document.createElement('span');
@@ -157,7 +157,7 @@ function createSelectAllAndDisplayImagesWhileSortingButtons() {
     new_cell.appendChild(new_span);
 }
 
-function chgAll() {
+function checkAllButtons() {
     for (i = 0; i < albumTitleArray.length; i++) {
         document.getElementById('optSelect' + i).checked = document.getElementById('optSelect_all').checked;
     }
@@ -186,10 +186,10 @@ function init() {
 
     // ソート対象のみを抽出
     // Extract only the items to be sorted
-    for (i = 0; i < ary_CharacterData.length; i++) {
+    for (i = 0; i < babymetalSongsArray.length; i++) {
         for (j = 0; j < albumTitleArray.length; j++) {
-            if (document.getElementById('optSelect' + j).checked && (ary_CharacterData[i][2][j] == 1)) {
-                ary_TempData[int_Total] = ary_CharacterData[i];
+            if (document.getElementById('optSelect' + j).checked && (babymetalSongsArray[i][2][j] == 1)) {
+                ary_TempData[int_Total] = babymetalSongsArray[i];
                 int_Total++;
                 break;
             }
@@ -280,7 +280,7 @@ function imginit() {
 
     var tbl_Image_body = document.getElementById('imgTable');
 
-    for (i = 0; i < ary_CharacterData.length; i++) {
+    for (i = 0; i < babymetalSongsArray.length; i++) {
         new_row = tbl_Image_body.insertRow(tbl_Image_body.rows.length);
 
         // Col[0]
@@ -290,14 +290,14 @@ function imginit() {
         new_cell.className = 'resTableL';
         // Col[1]
         new_cell = new_row.insertCell(new_row.childNodes.length);
-        new_cell.appendChild(document.createTextNode(ary_CharacterData[i][1]));
+        new_cell.appendChild(document.createTextNode(babymetalSongsArray[i][1]));
         new_cell.setAttribute('class', 'resTableR', 0);
         new_cell.className = 'resTableR';
 
         // Col[2]
         new_cell = new_row.insertCell(new_row.childNodes.length);
         for (j = 0; j < albumTitleArray.length; j++) {
-            if (ary_CharacterData[i][2][j] == 1) {
+            if (babymetalSongsArray[i][2][j] == 1) {
                 new_cell.appendChild(document.createTextNode(albumTitleArray[j]));
                 new_cell.appendChild(document.createElement('br'));
             }
@@ -310,10 +310,10 @@ function imginit() {
         new_cell.setAttribute('class', 'resTableR', 0);
         new_cell.className = 'resTableR';
 
-        if (ary_CharacterData[i][3].length > 0) {
-            for (j = 3; j < ary_CharacterData[i].length; j++) {
+        if (babymetalSongsArray[i][3].length > 0) {
+            for (j = 3; j < babymetalSongsArray[i].length; j++) {
                 var new_img = document.createElement('img');
-                new_img.src = str_ImgPath + ary_CharacterData[i][j];
+                new_img.src = str_ImgPath + babymetalSongsArray[i][j];
                 new_cell.appendChild(new_img);
                 int_ImgCount++;
             }
@@ -500,10 +500,8 @@ function fnc_CountUp(int_Select) {
 // * Display the progress rate and name.
 function fnc_ShowData() {
 
-
-
-    document.getElementById("lblCount").innerHTML = int_Count;
-    document.getElementById("lblProgress").innerHTML = Math.floor(int_Completed * 100 / int_Total);
+    document.getElementById("numberOfSortsSoFar").innerHTML = int_Count;
+    document.getElementById("percentageOfSortsSoFar").innerHTML = Math.floor(int_Completed * 100 / int_Total);
     if (!bln_ProgessBar) eGR(progressGaugeId, Math.floor(int_Completed * 100 / int_Total));
 
     if (int_Status == 2) {
@@ -790,8 +788,8 @@ function calculateAveragePosition() {
             var currentRanking = 63 - csort6.indexOf(song);
 
             const containsCurrentSong = (element) => element.includes(song);
-            var currentSongIndex = ary_CharacterData.findIndex(containsCurrentSong);
-            var acdItemContainingCurrentSong = ary_CharacterData[currentSongIndex];
+            var currentSongIndex = babymetalSongsArray.findIndex(containsCurrentSong);
+            var acdItemContainingCurrentSong = babymetalSongsArray[currentSongIndex];
             var albumIdentityArray = acdItemContainingCurrentSong[2];
             var albumId = albumIdentityArray.indexOf(1);
 
