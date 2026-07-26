@@ -179,6 +179,7 @@ var ary_CharacterData = [
     [1, "Akatsuki (Budokan 2021)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], "bmsong/10BMY.jpg"],
     [1, "The One (Living Legend ver.)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], "bmsong/10BMY.jpg"],
     [1, "Megitsune (赤子金属 ver.)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], "bmsong/FoxFest.jpg"],
-    [1, "from me to u feat. Poppy (Major Lazer Remix)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], "bmsong/majorlazer.jpg"]
+    [1, "from me to u feat. Poppy (Major Lazer Remix)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], "bmsong/majorlazer.jpg"],
+    [1, "from me to u feat. Poppy (Jordan Fish Remix)", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], "bmsong/fmtuJF.jpg"]
   
 ];
