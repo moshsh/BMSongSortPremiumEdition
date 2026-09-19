@@ -76,7 +76,6 @@
 
 
 		</table><br>
-
 		<div id="ranTable" width="640px" class="tb" style="display:none;" align="center">
 			<div>
 				<form>
@@ -84,7 +83,63 @@
 				</form>
 			</div>
 		</div>
+		<style type="text/css">
+	.fancy-sorter-button {
+		display: block;
+		margin: 30px auto;
+		padding: 14px 24px;
+		border: 0;
+		border-radius: 999px;
+		background: linear-gradient(135deg, #ff2a9b, #8a2be2, #00cfff);
+		background-size: 200% 200%;
+		color: #fff;
+		font-size: 16px;
+		font-weight: bold;
+		cursor: pointer;
+		box-shadow: 0 0 10px rgba(255, 42, 155, 0.7);
+		animation:
+			fancyPulse 1.5s ease-in-out infinite,
+			fancyGradient 3s ease infinite;
+		transition: transform 0.2s ease;
+	}
 
+	.fancy-sorter-button:hover {
+		transform: scale(1.06);
+	}
+
+	.fancy-sorter-button:active {
+		transform: scale(0.98);
+	}
+
+	@keyframes fancyPulse {
+		0%, 100% {
+			box-shadow: 0 0 10px rgba(255, 42, 155, 0.7);
+		}
+		50% {
+			box-shadow:
+				0 0 25px rgba(255, 42, 155, 1),
+				0 0 45px rgba(138, 43, 226, 0.7);
+		}
+	}
+
+	@keyframes fancyGradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+</style>
+		<a href="https://bmsongsorterrefactorv2.onrender.com/"
+   class="fancy-sorter-button"
+   target="_blank"
+   rel="noopener noreferrer">
+	Why not try this new fancy BM song sorter? (Work in progress)
+</a>
 		<div class="style4" id="resultField" style="text-align:center;"><br></div>
 
 		<div class="style4" id="graphField" style="text-align:center;"><br></div>
@@ -94,7 +149,7 @@
 		</div>
 <footer class="site-footer" id="footer">
   <p>
-    Version 0.1.6<br>
+    Version 0.1.7<br>
     Special thanks to Curious Midnight and Silly Programme for their contributions.<br>
 	Ping @moshmate on <a href="https://discord.gg/babymetal" target="_blank">https://discord.gg/babymetal</a> for suggestions or issues<br>
 	Check out this fun <a href="https://tiermaker.com/create/babymetal-songs-207725" target="_blank">BABYMETAL songs tier list</a>
