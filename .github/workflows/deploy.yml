@@ -2,7 +2,7 @@ name: Deploy website
 
 on:
   push:
-    branches: [feature/RadialPersonalityGraph]
+    branches: [main]
 
 permissions:
   contents: read
@@ -12,6 +12,10 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -26,4 +30,5 @@ jobs:
           path: .
 
       - name: Deploy
+        id: deployment
         uses: actions/deploy-pages@v4
